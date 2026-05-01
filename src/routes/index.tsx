@@ -1,26 +1,49 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Navbar } from "@/components/Navbar";
+import { SocialRail } from "@/components/SocialRail";
+import {
+  About,
+  Accomplishments,
+  EducationExperience,
+  Footer,
+  Hero,
+  MySpace,
+  Projects,
+  Technologies,
+} from "@/components/Sections";
+import { profile } from "@/content/portfolio";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: `${profile.name} — Portfolio` },
+      {
+        name: "description",
+        content: `${profile.role}. ${profile.intro}`,
+      },
+      { property: "og:title", content: `${profile.name} — Portfolio` },
+      { property: "og:description", content: profile.intro },
+      { property: "og:type", content: "website" },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen relative overflow-x-clip">
+      <Navbar />
+      <SocialRail />
+      <main>
+        <Hero />
+        <About />
+        <EducationExperience />
+        <Projects />
+        <Technologies />
+        <Accomplishments />
+        <MySpace />
+      </main>
+      <Footer />
     </div>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
