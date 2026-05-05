@@ -7,10 +7,10 @@ import {
   EducationExperience,
   Footer,
   Hero,
-  MySpace,
   Projects,
   Technologies,
 } from "@/components/Sections";
+import { MySpaceCuration } from "@/components/MySpaceCuration";
 import { profile } from "@/content/portfolio";
 
 export const Route = createFileRoute("/")({
@@ -41,7 +41,7 @@ function Index() {
         <Projects />
         <Technologies />
         <Accomplishments />
-        <MySpace />
+        <MySpaceCuration />
       </main>
       <Footer />
     </div>
