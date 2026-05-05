@@ -13,15 +13,23 @@ import {
 } from "lucide-react";
 import { Reveal } from "./Reveal";
 import {
-  ADMIN_PASSWORD,
   CATEGORIES,
-  supabaseAdmin,
   supabasePublic,
   type Category,
   type ContentEntry,
 } from "@/lib/myspaceClient";
+import {
+  createEntry,
+  deleteEntry,
+  listAllEntries,
+  toggleFeatured,
+  updateEntry,
+  verifyPassword,
+} from "@/server/myspace.functions";
 
 type Filter = "All" | Category;
+
+const PWD_KEY = "myspace_admin_pwd";
 
 const emptyDraft = {
   title: "",
@@ -42,28 +50,47 @@ export function MySpaceCuration() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("All");
 
-  const [isAdmin, setIsAdmin] = useState(false);
+  // Admin password is held only in memory + sessionStorage. Every write call
+  // sends it to the server which validates it before touching the DB.
+  const [password, setPassword] = useState<string | null>(() =>
+    typeof window !== "undefined" ? sessionStorage.getItem(PWD_KEY) : null,
+  );
+  const isAdmin = !!password;
+
   const [showLogin, setShowLogin] = useState(false);
-  const [pwd, setPwd] = useState("");
+  const [pwdInput, setPwdInput] = useState("");
   const [pwdError, setPwdError] = useState("");
+  const [pwdLoading, setPwdLoading] = useState(false);
 
   const [editing, setEditing] = useState<ContentEntry | null>(null);
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     void load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdmin]);
 
   async function load() {
     setLoading(true);
     setError(null);
-    const client = isAdmin ? supabaseAdmin : supabasePublic;
-    let q = client.from("content").select("*").order("created_at", { ascending: false });
-    if (!isAdmin) q = q.eq("published", true);
-    const { data, error } = await q;
-    if (error) setError(error.message);
-    else setEntries((data ?? []) as ContentEntry[]);
-    setLoading(false);
+    try {
+      if (isAdmin && password) {
+        const rows = await listAllEntries({ data: { password } });
+        setEntries(rows as ContentEntry[]);
+      } else {
+        const { data, error } = await supabasePublic
+          .from("content")
+          .select("*")
+          .eq("published", true)
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        setEntries((data ?? []) as ContentEntry[]);
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
+    }
   }
 
   const filtered = useMemo(() => {
@@ -82,34 +109,51 @@ export function MySpaceCuration() {
       .sort((a, b) => Number(b.featured) - Number(a.featured));
   }, [entries, query, filter]);
 
-  function tryLogin() {
-    if (pwd === ADMIN_PASSWORD) {
-      setIsAdmin(true);
+  async function tryLogin() {
+    setPwdLoading(true);
+    setPwdError("");
+    try {
+      const { ok } = await verifyPassword({ data: { password: pwdInput } });
+      if (!ok) {
+        setPwdError("Incorrect password");
+        return;
+      }
+      sessionStorage.setItem(PWD_KEY, pwdInput);
+      setPassword(pwdInput);
       setShowLogin(false);
-      setPwd("");
-      setPwdError("");
-    } else {
-      setPwdError("Incorrect password");
+      setPwdInput("");
+    } catch (e) {
+      setPwdError(e instanceof Error ? e.message : "Login failed");
+    } finally {
+      setPwdLoading(false);
     }
   }
 
-  async function remove(id: string) {
-    if (!confirm("Delete this entry?")) return;
-    const { error } = await supabaseAdmin.from("content").delete().eq("id", id);
-    if (error) alert(error.message);
-    else setEntries((prev) => prev.filter((e) => e.id !== id));
+  function logout() {
+    sessionStorage.removeItem(PWD_KEY);
+    setPassword(null);
   }
 
-  async function toggleFeatured(e: ContentEntry) {
-    const { error } = await supabaseAdmin
-      .from("content")
-      .update({ featured: !e.featured })
-      .eq("id", e.id);
-    if (error) alert(error.message);
-    else
+  async function remove(id: string) {
+    if (!password || !confirm("Delete this entry?")) return;
+    try {
+      await deleteEntry({ data: { password, id } });
+      setEntries((prev) => prev.filter((e) => e.id !== id));
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Delete failed");
+    }
+  }
+
+  async function onToggleFeatured(e: ContentEntry) {
+    if (!password) return;
+    try {
+      await toggleFeatured({ data: { password, id: e.id, featured: !e.featured } });
       setEntries((prev) =>
         prev.map((p) => (p.id === e.id ? { ...p, featured: !e.featured } : p)),
       );
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Update failed");
+    }
   }
 
   return (
@@ -145,7 +189,7 @@ export function MySpaceCuration() {
                   <Plus className="w-4 h-4" /> New entry
                 </button>
                 <button
-                  onClick={() => setIsAdmin(false)}
+                  onClick={logout}
                   className="text-xs text-muted-foreground hover:text-foreground"
                 >
                   Exit
@@ -253,7 +297,7 @@ export function MySpaceCuration() {
                       {isAdmin && (
                         <div className="mt-4 pt-4 border-t border-border/50 flex items-center gap-2">
                           <button
-                            onClick={() => toggleFeatured(e)}
+                            onClick={() => onToggleFeatured(e)}
                             className={`p-2 rounded-full glass hover-lift ${
                               e.featured ? "text-yellow-400" : "text-muted-foreground"
                             }`}
@@ -286,7 +330,6 @@ export function MySpaceCuration() {
           )}
         </div>
 
-        {/* Discreet admin toggle */}
         <div className="mt-12 flex justify-end">
           {!isAdmin && (
             <button
@@ -306,9 +349,9 @@ export function MySpaceCuration() {
           <input
             type="password"
             autoFocus
-            value={pwd}
-            onChange={(e) => setPwd(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && tryLogin()}
+            value={pwdInput}
+            onChange={(e) => setPwdInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && !pwdLoading && tryLogin()}
             className="mt-4 w-full px-4 py-3 rounded-xl glass bg-transparent outline-none focus:ring-2 focus:ring-primary/50"
             placeholder="Password"
           />
@@ -322,17 +365,20 @@ export function MySpaceCuration() {
             </button>
             <button
               onClick={tryLogin}
-              className="px-5 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-medium shadow-glow"
+              disabled={pwdLoading || !pwdInput}
+              className="px-5 py-2 rounded-full bg-gradient-primary text-primary-foreground text-sm font-medium shadow-glow disabled:opacity-50 inline-flex items-center gap-2"
             >
+              {pwdLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
               Unlock
             </button>
           </div>
         </Modal>
       )}
 
-      {showForm && isAdmin && (
+      {showForm && isAdmin && password && (
         <EntryForm
           initial={editing}
+          password={password}
           onClose={() => setShowForm(false)}
           onSaved={async () => {
             setShowForm(false);
@@ -368,10 +414,12 @@ function Modal({ children, onClose }: { children: React.ReactNode; onClose: () =
 
 function EntryForm({
   initial,
+  password,
   onClose,
   onSaved,
 }: {
   initial: ContentEntry | null;
+  password: string;
   onClose: () => void;
   onSaved: () => void;
 }) {
@@ -396,26 +444,32 @@ function EntryForm({
   async function save() {
     setSaving(true);
     setErr(null);
-    const payload = {
-      title: draft.title.trim(),
-      category: draft.category,
-      statement: draft.statement.trim(),
-      url: draft.url.trim() || null,
-      thumbnail: draft.thumbnail.trim() || null,
-      author: draft.author.trim() || null,
-      tags: draft.tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
-      featured: draft.featured,
-      published: draft.published,
-    };
-    const { error } = initial
-      ? await supabaseAdmin.from("content").update(payload).eq("id", initial.id)
-      : await supabaseAdmin.from("content").insert(payload);
-    setSaving(false);
-    if (error) setErr(error.message);
-    else onSaved();
+    try {
+      const entry = {
+        title: draft.title.trim(),
+        category: draft.category,
+        statement: draft.statement.trim(),
+        url: draft.url.trim() || null,
+        thumbnail: draft.thumbnail.trim() || null,
+        author: draft.author.trim() || null,
+        tags: draft.tags
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean),
+        featured: draft.featured,
+        published: draft.published,
+      };
+      if (initial) {
+        await updateEntry({ data: { password, id: initial.id, entry } });
+      } else {
+        await createEntry({ data: { password, entry } });
+      }
+      onSaved();
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Save failed");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
