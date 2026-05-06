@@ -122,7 +122,7 @@ export function MySpacePreview() {
             <div className="glass rounded-2xl p-8 text-center">
               <p className="text-muted-foreground">
                 {entries.length === 0
-                  ? "Nothing here yet — head to My Space to add your first entry."
+                  ? "Nothing here yet, Come back tommorow"
                   : "No latest entries match your filter."}
               </p>
               <Link
