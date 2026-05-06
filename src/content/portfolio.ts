@@ -27,7 +27,7 @@ export const navLinks = [
   { label: "Projects", href: "#projects" },
   { label: "Technologies", href: "#technologies" },
   { label: "Accomplishments", href: "#accomplishments" },
-  { label: "MySpace", href: "#myspace" },
+  { label: "My Space", href: "/mySpace" },
 ] as const;
 
 export const about = {
