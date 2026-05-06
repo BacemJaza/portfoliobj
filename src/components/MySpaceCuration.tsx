@@ -27,11 +27,11 @@ import {
   toggleFeatured,
   updateEntry,
   verifyPassword,
-} from "@/server/myspace.functions";
+} from "@/lib/myspace.functions";
 
 type Filter = "All" | Category;
 
-const PWD_KEY = "myspace_admin_pwd";
+const PWD_KEY = "Jackdaw77!";
 
 const emptyDraft = {
   title: "",
