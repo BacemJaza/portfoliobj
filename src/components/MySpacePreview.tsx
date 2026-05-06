@@ -3,12 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink, Heart, Loader2, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Reveal } from "./Reveal";
-import {
-  CATEGORIES,
-  supabasePublic,
-  type Category,
-  type ContentEntry,
-} from "@/lib/myspaceClient";
+import { CATEGORIES, type Category, type ContentEntry } from "@/lib/myspaceClient";
+import { listLatestPublished } from "@/server/myspace.functions";
 
 type Filter = "All" | Category;
 
