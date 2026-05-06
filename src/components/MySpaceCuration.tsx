@@ -567,7 +567,7 @@ function EntryForm({
             Published
           </label>
         </div>
-        {err && <p className="text-xs text-destructive">{err}</p>}
+        
       </div>
       <div className="mt-6 flex justify-end gap-2">
         <button
