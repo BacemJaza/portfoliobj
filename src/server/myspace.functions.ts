@@ -81,7 +81,24 @@ export const toggleFeatured = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-// Admin-only listing (includes drafts). Public list uses the anon client + RLS.
+// Public listing of latest published entries — uses the admin client so it
+// works regardless of RLS configuration.
+export const listLatestPublished = createServerFn({ method: "GET" })
+  .inputValidator((d: unknown) =>
+    z.object({ limit: z.number().int().min(1).max(50).optional() }).parse(d ?? {}),
+  )
+  .handler(async ({ data }) => {
+    const { data: rows, error } = await getAdminClient()
+      .from("content")
+      .select("*")
+      .eq("published", true)
+      .order("created_at", { ascending: false })
+      .limit(data.limit ?? 6);
+    if (error) throw new Error(error.message);
+    return rows ?? [];
+  });
+
+// Admin-only listing (includes drafts).
 export const listAllEntries = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => z.object({ password: z.string().min(1).max(200) }).parse(d))
   .handler(async ({ data }) => {

@@ -3,12 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink, Heart, Loader2, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Reveal } from "./Reveal";
-import {
-  CATEGORIES,
-  supabasePublic,
-  type Category,
-  type ContentEntry,
-} from "@/lib/myspaceClient";
+import { CATEGORIES, type Category, type ContentEntry } from "@/lib/myspaceClient";
+import { listLatestPublished } from "@/server/myspace.functions";
 
 type Filter = "All" | Category;
 
@@ -26,20 +22,18 @@ export function MySpacePreview() {
     (async () => {
       setLoading(true);
       setError(null);
-      const { data, error } = await supabasePublic
-        .from("content")
-        .select("*")
-        .eq("published", true)
-        .order("created_at", { ascending: false })
-        .limit(LATEST_LIMIT);
-      if (cancelled) return;
-      if (error) {
-        setError(error.message);
-        toast.error("Couldn't load latest entries", { description: error.message });
-      } else {
-        setEntries((data ?? []) as ContentEntry[]);
+      try {
+        const rows = await listLatestPublished({ data: { limit: LATEST_LIMIT } });
+        if (cancelled) return;
+        setEntries(rows as ContentEntry[]);
+      } catch (e) {
+        if (cancelled) return;
+        const msg = e instanceof Error ? e.message : String(e);
+        setError(msg);
+        toast.error("Couldn't load latest entries", { description: msg });
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-      setLoading(false);
     })();
     return () => {
       cancelled = true;
@@ -128,7 +122,7 @@ export function MySpacePreview() {
             <div className="glass rounded-2xl p-8 text-center">
               <p className="text-muted-foreground">
                 {entries.length === 0
-                  ? "Nothing here yet — head to My Space to add your first entry."
+                  ? "Nothing here yet, Come back tommorow"
                   : "No latest entries match your filter."}
               </p>
               <Link
