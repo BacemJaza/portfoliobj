@@ -46,22 +46,17 @@ export function Navbar() {
             scrolled ? "glass shadow-elegant" : "bg-transparent"
           }`}
         >
-          <a href="#top" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-2 group">
             <span className="grid place-items-center w-8 h-8 rounded-full bg-gradient-primary text-primary-foreground text-xs font-bold shadow-glow">
               {profile.avatarInitials}
             </span>
             <span className="font-semibold tracking-tight">Portfolio</span>
-          </a>
+          </Link>
 
           <ul className="hidden md:flex items-center gap-1">
             {navLinks.map((l) => (
               <li key={l.href}>
-                <a
-                  href={l.href}
-                  className="relative px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-accent/50"
-                >
-                  {l.label}
-                </a>
+                <NavItem href={l.href} label={l.label} />
               </li>
             ))}
           </ul>
@@ -91,13 +86,7 @@ export function Navbar() {
             <ul className="flex flex-col">
               {navLinks.map((l) => (
                 <li key={l.href}>
-                  <a
-                    onClick={() => setOpen(false)}
-                    href={l.href}
-                    className="block px-4 py-3 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50"
-                  >
-                    {l.label}
-                  </a>
+                  <NavItem href={l.href} label={l.label} onClick={() => setOpen(false)} />
                 </li>
               ))}
               <li>
