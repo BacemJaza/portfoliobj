@@ -10,7 +10,9 @@ import {
   ExternalLink,
   Heart,
   Loader2,
+  AlertCircle,
 } from "lucide-react";
+import { toast } from "sonner";
 import { Reveal } from "./Reveal";
 import {
   CATEGORIES,
@@ -139,8 +141,10 @@ export function MySpaceCuration() {
     try {
       await deleteEntry({ data: { password, id } });
       setEntries((prev) => prev.filter((e) => e.id !== id));
+      toast.success("Entry deleted");
     } catch (e) {
-      alert(e instanceof Error ? e.message : "Delete failed");
+      const msg = e instanceof Error ? e.message : "Delete failed";
+      toast.error("Delete failed", { description: msg });
     }
   }
 
@@ -152,7 +156,8 @@ export function MySpaceCuration() {
         prev.map((p) => (p.id === e.id ? { ...p, featured: !e.featured } : p)),
       );
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Update failed");
+      const msg = err instanceof Error ? err.message : "Update failed";
+      toast.error("Update failed", { description: msg });
     }
   }
 
@@ -234,11 +239,12 @@ export function MySpaceCuration() {
               <Loader2 className="w-4 h-4 animate-spin" /> Loading…
             </div>
           ) : error ? (
-            <div className="glass rounded-2xl p-6 text-sm text-destructive">
-              {error}
-              <p className="mt-2 text-muted-foreground">
-                Make sure the <code>content</code> table exists in your Supabase project.
-              </p>
+            <div className="glass rounded-2xl p-6 text-sm text-destructive flex gap-3">
+              <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+              <div>
+                <p className="font-medium">Couldn't load entries</p>
+                <p className="mt-1 text-muted-foreground">{error}</p>
+              </div>
             </div>
           ) : filtered.length === 0 ? (
             <p className="text-muted-foreground">No entries match.</p>
@@ -461,12 +467,16 @@ function EntryForm({
       };
       if (initial) {
         await updateEntry({ data: { password, id: initial.id, entry } });
+        toast.success("Entry updated");
       } else {
         await createEntry({ data: { password, entry } });
+        toast.success("Entry created");
       }
       onSaved();
     } catch (e) {
-      setErr(e instanceof Error ? e.message : "Save failed");
+      const msg = e instanceof Error ? e.message : "Save failed";
+      setErr(msg);
+      toast.error("Save failed", { description: msg });
     } finally {
       setSaving(false);
     }
@@ -475,6 +485,12 @@ function EntryForm({
   return (
     <Modal onClose={onClose}>
       <h3 className="text-lg font-semibold">{initial ? "Edit entry" : "New entry"}</h3>
+      {err && (
+        <div className="mt-4 glass rounded-xl p-3 text-xs text-destructive flex gap-2 border border-destructive/30">
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+          <span>{err}</span>
+        </div>
+      )}
       <div className="mt-5 space-y-3 max-h-[70vh] overflow-y-auto pr-1">
         <Field label="Title">
           <input
@@ -551,7 +567,7 @@ function EntryForm({
             Published
           </label>
         </div>
-        {err && <p className="text-xs text-destructive">{err}</p>}
+        
       </div>
       <div className="mt-6 flex justify-end gap-2">
         <button
