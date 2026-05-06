@@ -22,20 +22,18 @@ export function MySpacePreview() {
     (async () => {
       setLoading(true);
       setError(null);
-      const { data, error } = await supabasePublic
-        .from("content")
-        .select("*")
-        .eq("published", true)
-        .order("created_at", { ascending: false })
-        .limit(LATEST_LIMIT);
-      if (cancelled) return;
-      if (error) {
-        setError(error.message);
-        toast.error("Couldn't load latest entries", { description: error.message });
-      } else {
-        setEntries((data ?? []) as ContentEntry[]);
+      try {
+        const rows = await listLatestPublished({ data: { limit: LATEST_LIMIT } });
+        if (cancelled) return;
+        setEntries(rows as ContentEntry[]);
+      } catch (e) {
+        if (cancelled) return;
+        const msg = e instanceof Error ? e.message : String(e);
+        setError(msg);
+        toast.error("Couldn't load latest entries", { description: msg });
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-      setLoading(false);
     })();
     return () => {
       cancelled = true;
