@@ -1,5 +1,23 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { navLinks, profile } from "@/content/portfolio";
+
+function NavItem({ href, label, onClick }: { href: string; label: string; onClick?: () => void }) {
+  const cls =
+    "relative px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-accent/50";
+  if (href.startsWith("/")) {
+    return (
+      <Link to={href} onClick={onClick} className={cls}>
+        {label}
+      </Link>
+    );
+  }
+  return (
+    <a href={href} onClick={onClick} className={cls}>
+      {label}
+    </a>
+  );
+}
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
