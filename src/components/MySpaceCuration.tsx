@@ -24,6 +24,7 @@ import {
   createEntry,
   deleteEntry,
   listAllEntries,
+  listAllPublicEntries,
   toggleFeatured,
   updateEntry,
   verifyPassword,
@@ -35,7 +36,7 @@ const PWD_KEY = "Jackdaw77!";
 
 const emptyDraft = {
   title: "",
-  category: "Thoughts" as Category,
+  category: "News" as Category,
   statement: "",
   url: "",
   thumbnail: "",
@@ -70,7 +71,7 @@ export function MySpaceCuration() {
   useEffect(() => {
     void load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAdmin]);
+  }, []);
 
   async function load() {
     setLoading(true);
@@ -80,13 +81,8 @@ export function MySpaceCuration() {
         const rows = await listAllEntries({ data: { password } });
         setEntries(rows as ContentEntry[]);
       } else {
-        const { data, error } = await supabasePublic
-          .from("content")
-          .select("*")
-          .eq("published", true)
-          .order("created_at", { ascending: false });
-        if (error) throw error;
-        setEntries((data ?? []) as ContentEntry[]);
+        const rows = await listAllPublicEntries({});
+        setEntries(rows as ContentEntry[]);
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -122,6 +118,7 @@ export function MySpaceCuration() {
       }
       sessionStorage.setItem(PWD_KEY, pwdInput);
       setPassword(pwdInput);
+      await load(); // Reload to show all entries
       setShowLogin(false);
       setPwdInput("");
     } catch (e) {
@@ -134,6 +131,7 @@ export function MySpaceCuration() {
   function logout() {
     sessionStorage.removeItem(PWD_KEY);
     setPassword(null);
+    // Don't reload, keep current entries displayed
   }
 
   async function remove(id: string) {
@@ -175,8 +173,7 @@ export function MySpaceCuration() {
               </h2>
               <div className="mt-3 h-1 w-16 rounded-full bg-gradient-primary" />
               <p className="mt-4 text-muted-foreground max-w-xl">
-                A living shelf of thoughts, books, films, videos, and lectures that move me —
-                each with my take on why.
+                A living collection of news, updates, and quick takes that move me — each with my perspective.
               </p>
             </div>
             {isAdmin && (
@@ -252,7 +249,8 @@ export function MySpaceCuration() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {filtered.map((e, i) => (
                 <Reveal key={e.id} delay={Math.min(i * 50, 300)}>
-                  <article className="group glass rounded-2xl overflow-hidden hover-lift h-full flex flex-col">
+                  <article className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(96,165,250,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.14),transparent_30%),rgb(15,23,42)] shadow-[0_24px_50px_-24px_rgba(15,23,42,0.8)] transition hover:-translate-y-1 hover:shadow-[0_24px_80px_-30px_rgba(99,102,241,0.35)] h-full flex flex-col">
+                    <div className="pointer-events-none absolute -right-8 top-6 h-24 w-24 rounded-full bg-primary/20 blur-3xl" />
                     {e.thumbnail && (
                       <div className="aspect-video overflow-hidden bg-gradient-soft">
                         <img
@@ -265,7 +263,7 @@ export function MySpaceCuration() {
                     )}
                     <div className="p-5 flex-1 flex flex-col">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="text-[10px] uppercase tracking-wider text-primary-glow">
+                        <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] uppercase tracking-wider text-primary-glow ring-1 ring-primary/20">
                           {e.category}
                           {e.featured && " · ★"}
                           {!e.published && " · draft"}

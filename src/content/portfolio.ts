@@ -3,9 +3,10 @@
 //  Everything that changes over time (experiences, education, projects,
 //  technologies, accomplishments, social links) lives here.
 // ============================================================================
+import avatarUrl from "./Photo.png";
 
 export const profile = {
-  name: "Your Name",
+  name: "Bacem Jaza",
   role: "Web Developer & CS Student",
   tagline: "Welcome to my digital home!",
   intro:
@@ -13,14 +14,15 @@ export const profile = {
   status:
     "🎓 Officially graduated! Ready for a new adventure and whatever's next ✨",
   resumeUrl: "/resume.pdf",
-  email: "hello@example.com",
-  avatarInitials: "YN",
+  email: "bacemjaza7@gmail.com",
+  avatarInitials: "BJ",
+  avatarUrl: avatarUrl,
 };
 
 export const socials = [
-  { label: "GitHub", href: "https://github.com/yourname", icon: "github" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/yourname", icon: "linkedin" },
-  { label: "Email", href: "mailto:hello@example.com", icon: "mail" },
+  { label: "GitHub", href: "https://github.com/BacemJaza", icon: "github" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/jaza-bacem/", icon: "linkedin" },
+  { label: "Email", href: "mailto:bacemjaza7@gmail.com", icon: "mail" },
 ] as const;
 
 export const navLinks = [
@@ -50,45 +52,103 @@ export const about = {
 export const education = [
   {
     school: "ESPRIT",
-    degree: "Software Engineering",
-    period: "2023 — Present",
-    description: "Engineer to be.",
+    degree: "Software Architectural Engineering (SAE)",
+    period: "2023 — 2025",
+    description: "As we conclude our extensive academic journey at ESPRIT School, we reflect upon the profound experiences gained throughout this formidable educational odyssey. Within this comprehensive program, our focus on computer science has been unwavering, honing our expertise by integrating pre-existing knowledge with collaborative team projects. The invaluable guidance provided by our exceptionally skilled supervisors has been instrumental in shaping our academic trajectory.",
     url: "https://esprit.tn/",
   },
+  {
+    school: "ISIMM",
+    degree: "Software Engineering",
+    period: "2019 — 2023",
+    description: "Upon graduating from high school, my discerning choice led me to ISIMM—an institution that has proven to be an indelible cornerstone in my educational journey. From the onset, my decision to enroll at ISIMM has been a source of unwavering satisfaction, as it opened the doors to an expansive realm of computer science. Within the hallowed halls of ISIMM, I delved into a comprehensive curriculum that not only acquainted me with the intricacies of hardware and software utilities but also provided a platform for immersive learning. The educational landscape here has been transformative, facilitating a deep dive into the dynamic world of computer science, where theoretical knowledge seamlessly integrates with hands-on practical experience.",
+    url: "https://isimm.rnu.tn/public/",
+  }
 ];
 
 export const experiences = [
   {
     company: "MAON GmbH",
-    role: "Web Developer Intern",
+    role: "Software Engineer Intern",
+    stack:"",
     period: "2024",
     location: "Germany",
     description:
-      "Built and shipped features for production web apps. Learned a lot, grew a lot, and made great memories.",
+      "As part of my 6-month end-of-studies internship, I worked on full-stack development using the MEAN stack (MongoDB, Express.js, React, Node.js), contributing to both front-end and back-end features. I also helped integrate CI/CD pipelines with GitLab and supported Kubernetes deployments to ensure scalable and reliable application delivery. Throughout the internship, I collaborated closely with the development team through code reviews, user flow testing, and updating technical documentation.",
+  },
+  {
+    company: "Sicilia Mia",
+    role: "Software Engineer Intern (Remote)",
+    stack:"",
+    period: "2024",
+    location: "Italy",
+    description:
+      "I had the incredible opportunity to work remotely for 30 hours a week on several React components as part of a group project. It was an exciting journey that strengthened my coding skills and fueled my growth through collaboration, vibrant discussions, and problem-solving. I’m eager to carry this momentum into new challenges ahead!",
+  },
+  {
+    company: "3D WAVE",
+    role: "Software Engineer Intern",
+    stack:"",
+    period: "2024",
+    location: "Tunisia",
+    description:
+      "I developed a MERN stack application featuring a user dashboard for registering and showcasing battery passports, with additional security measures implemented to enhance platform safety. Throughout the project, I ensured that the scrum team's efficiency was maintained, meeting deadlines and rigorously testing functionalities.",
+  },
+  {
+    company: "Docstream Solutions",
+    role: "JavaScript Developer Intern",
+    stack:"",
+    period: "2024",
+    location: "Germany",
+    description:
+      "During my internship at Docstream Solutions, I developed two JavaScript plugins to enhance UI/UX and document management within web applications. The first project focused on a calendar system with organized data display and CRUD functionalities, while the second involved creating a PDF Viewer plugin with features such as zooming, cropping, and digital signing. These projects strengthened my skills in JavaScript development, plugin integration, and user-centered design.",
   },
 ];
 
 export const projects = [
   {
-    title: "Project One",
-    description: "A short description of what this project does and why it's cool.",
-    tags: ["React", "TypeScript", "Tailwind"],
+    title: "Internship Management Site",
+    description: "I developed an internship management system to streamline processes for students and companies, implementing features using Angular, Spring Boot, Python, and Flask. This system significantly improved efficiency in internship application and documentation processes.",
+    tags: ['AngularJS', 'SpringBoot', 'Tailwind CSS','Data Mining','Flask'],
     href: "#",
     repo: "#",
+    vidSrc: "https://www.youtube.com/watch?v=N8V8cENDSY4",
   },
   {
-    title: "Project Two",
-    description: "Another project showcasing your skills with a clear, concise summary.",
-    tags: ["Next.js", "Node", "Postgres"],
+    title: "E-commerce platform",
+    description: "This Flutter-based mobile application was developed as part of a school project. It enables users to navigate through various products and make purchases. Working on this project introduced me to the capabilities of this exceptional framework and helped me appreciate its simplicity and structured approach.",
+    tags: ["Flutter","Widgets","Tailwind"],
     href: "#",
     repo: "#",
+    vidSrc:"",
+    pdf:""
   },
   {
-    title: "Project Three",
-    description: "One more entry — replace these with your real work.",
-    tags: ["Vue", "Firebase"],
+    title: "Maven project",
+    description: "This maven project was created for a school assignment. The accompanying file provides detailed insights into the algorithm's process and the aspects it tests, so I encourage you to review it.",
+    tags: ['Maven','JUNIT','Java'],
     href: "#",
     repo: "#",
+    vidSrc:"",
+    pdf:""
+  },
+  {
+    title: "Traffic run game",
+    description: "A little dive into ThreeJS world and exploring game development with this simple application. This entertaining game challenges players to avoid colliding with other cars in order to progress. Try to play the game and enjoy.",
+    tags: ['Maven','JUNIT','Java'],
+    href: "https://traffic-run-game-365j3rqr2-bacemjazas-projects.vercel.app",
+    repo: "https://github.com/BacemJaza/traffic-run-game",
+    vidSrc:"",
+    pdf:""
+  },
+  {
+    title: "MyNotes",
+    description: "This project marked my initial foray into creating a notes application, driven by my desire to explore and master ReactJs. The app was designed with CRUD functionalities specifically tailored for managing notes, allowing users to showcase and edit them as needed.",
+    tags: ['ReactJs','JSON server'],
+    href: "#",
+    repo: "https://github.com/BacemJaza/My-Notes",
+    vidSrc:"https://www.youtube.com/watch?v=3ZCaScGlryM&ab_channel=JazaBacem",
+    pdf:""
   },
 ];
 

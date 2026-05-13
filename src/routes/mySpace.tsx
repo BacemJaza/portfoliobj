@@ -13,13 +13,13 @@ export const Route = createFileRoute("/mySpace")({
       {
         name: "description",
         content:
-          "A personal curation of thoughts, books, films, videos, and lectures — each with my take on why they matter.",
+          "A personal curation of news and fresh updates — each with my take on why they matter.",
       },
       { property: "og:title", content: `My Space — ${profile.name}` },
       {
         property: "og:description",
         content:
-          "A personal curation of thoughts, books, films, videos, and lectures — each with my take on why they matter.",
+          "A personal curation of news and fresh updates — each with my take on why they matter.",
       },
       { property: "og:type", content: "website" },
     ],

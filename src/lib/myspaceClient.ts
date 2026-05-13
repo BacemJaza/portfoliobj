@@ -25,5 +25,5 @@ export type ContentEntry = {
   updated_at: string;
 };
 
-export const CATEGORIES = ["Thoughts", "Books", "Movies", "Videos", "Lectures"] as const;
+export const CATEGORIES = ["News"] as const;
 export type Category = (typeof CATEGORIES)[number];

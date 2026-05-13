@@ -89,7 +89,11 @@ export function Hero() {
             <div className="relative w-full h-full rounded-[2.5rem] glass shadow-elegant grid place-items-center overflow-hidden">
               <div className="absolute inset-0 bg-gradient-soft opacity-60" />
               <span className="relative text-7xl sm:text-8xl font-bold text-gradient">
-                {profile.avatarInitials}
+                <img
+                src={profile.avatarUrl}
+                alt={`${profile.name} avatar`}
+                className="w-full h-full object-cover rounded-full"
+              />
               </span>
             </div>
             <div className="absolute -top-3 -right-3 w-16 h-16 rounded-2xl bg-gradient-primary blur-xl opacity-60" />

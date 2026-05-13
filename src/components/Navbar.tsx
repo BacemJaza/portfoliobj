@@ -5,13 +5,16 @@ import { navLinks, profile } from "@/content/portfolio";
 function NavItem({ href, label, onClick }: { href: string; label: string; onClick?: () => void }) {
   const cls =
     "relative px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-accent/50";
-  if (href.startsWith("/")) {
+
+  if (href.startsWith("/") || href.startsWith("#")) {
+    const to = href.startsWith("#") ? `/${href}` : href;
     return (
-      <Link to={href} onClick={onClick} className={cls}>
+      <Link to={to} onClick={onClick} className={cls}>
         {label}
       </Link>
     );
   }
+
   return (
     <a href={href} onClick={onClick} className={cls}>
       {label}
@@ -47,8 +50,12 @@ export function Navbar() {
           }`}
         >
           <Link to="/" className="flex items-center gap-2 group">
-            <span className="grid place-items-center w-8 h-8 rounded-full bg-gradient-primary text-primary-foreground text-xs font-bold shadow-glow">
-              {profile.avatarInitials}
+            <span className="grid place-items-center w-8 h-8 rounded-full bg-gradient-primary text-primary-foreground text-xs font-bold shadow-glow overflow-hidden">
+              <img
+                src={profile.avatarUrl}
+                alt={`${profile.name} avatar`}
+                className="w-full h-full object-cover rounded-full"
+              />
             </span>
             <span className="font-semibold tracking-tight">Portfolio</span>
           </Link>
