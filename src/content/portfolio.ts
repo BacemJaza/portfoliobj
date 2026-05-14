@@ -26,10 +26,13 @@ export const socials = [
 ] as const;
 
 export const navLinks = [
-  { label: "Projects", href: "#projects" },
+  { label: "My Space", href: "#myspace" },
+  { label: "About", href: "#about" },
   { label: "Technologies", href: "#technologies" },
+  { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#projects" },
+  { label: "Education", href: "#education" },
   { label: "Accomplishments", href: "#accomplishments" },
-  { label: "My Space", href: "/mySpace" },
 ] as const;
 
 export const about = {
@@ -70,36 +73,40 @@ export const experiences = [
   {
     company: "MAON GmbH",
     role: "Software Engineer Intern",
-    stack:"",
+    stack: "MongoDB · Express.js · React · Node.js",
     period: "2024",
     location: "Germany",
+    logoUrl: "/maon_logo.jpg",
     description:
       "As part of my 6-month end-of-studies internship, I worked on full-stack development using the MEAN stack (MongoDB, Express.js, React, Node.js), contributing to both front-end and back-end features. I also helped integrate CI/CD pipelines with GitLab and supported Kubernetes deployments to ensure scalable and reliable application delivery. Throughout the internship, I collaborated closely with the development team through code reviews, user flow testing, and updating technical documentation.",
   },
   {
     company: "Sicilia Mia",
     role: "Software Engineer Intern (Remote)",
-    stack:"",
+    stack: "React · JavaScript · HTML · CSS",
     period: "2024",
     location: "Italy",
+    logoUrl: "/siciliamia.png",
     description:
       "I had the incredible opportunity to work remotely for 30 hours a week on several React components as part of a group project. It was an exciting journey that strengthened my coding skills and fueled my growth through collaboration, vibrant discussions, and problem-solving. I’m eager to carry this momentum into new challenges ahead!",
   },
   {
     company: "3D WAVE",
     role: "Software Engineer Intern",
-    stack:"",
+    stack: "MongoDB · Express.js · React · Node.js",
     period: "2024",
     location: "Tunisia",
+    logoUrl: "/3dwave.png",
     description:
       "I developed a MERN stack application featuring a user dashboard for registering and showcasing battery passports, with additional security measures implemented to enhance platform safety. Throughout the project, I ensured that the scrum team's efficiency was maintained, meeting deadlines and rigorously testing functionalities.",
   },
   {
     company: "Docstream Solutions",
     role: "JavaScript Developer Intern",
-    stack:"",
+    stack: "JavaScript · HTML · CSS",
     period: "2024",
-    location: "Germany",
+    location: "Tunisia",
+    logoUrl: "/docstreamsolutions_logo.jpg",
     description:
       "During my internship at Docstream Solutions, I developed two JavaScript plugins to enhance UI/UX and document management within web applications. The first project focused on a calendar system with organized data display and CRUD functionalities, while the second involved creating a PDF Viewer plugin with features such as zooming, cropping, and digital signing. These projects strengthened my skills in JavaScript development, plugin integration, and user-centered design.",
   },
@@ -113,7 +120,7 @@ export const projects = [
     href: "#",
     repo: "#",
     vidSrc: "https://www.youtube.com/watch?v=N8V8cENDSY4",
-  },
+    pdf:"/internship-application-report.pdf"  },
   {
     title: "E-commerce platform",
     description: "This Flutter-based mobile application was developed as part of a school project. It enables users to navigate through various products and make purchases. Working on this project introduced me to the capabilities of this exceptional framework and helped me appreciate its simplicity and structured approach.",
@@ -130,12 +137,12 @@ export const projects = [
     href: "#",
     repo: "#",
     vidSrc:"",
-    pdf:""
+    pdf:"/mavenproject.pdf"
   },
   {
     title: "Traffic run game",
     description: "A little dive into ThreeJS world and exploring game development with this simple application. This entertaining game challenges players to avoid colliding with other cars in order to progress. Try to play the game and enjoy.",
-    tags: ['Maven','JUNIT','Java'],
+    tags: ['Three.js','Javascript','CSS'],
     href: "https://traffic-run-game-365j3rqr2-bacemjazas-projects.vercel.app",
     repo: "https://github.com/BacemJaza/traffic-run-game",
     vidSrc:"",
@@ -153,30 +160,55 @@ export const projects = [
 ];
 
 export const technologies = [
-  { name: "TypeScript", category: "Language" },
-  { name: "JavaScript", category: "Language" },
-  { name: "React", category: "Frontend" },
-  { name: "Next.js", category: "Frontend" },
-  { name: "Tailwind CSS", category: "Frontend" },
-  { name: "Node.js", category: "Backend" },
-  { name: "PostgreSQL", category: "Database" },
-  { name: "Git", category: "Tools" },
-  { name: "Docker", category: "Tools" },
-  { name: "Figma", category: "Design" },
+  { name: "TypeScript", category: "Language", icon: "SiTypescript" },
+  { name: "JavaScript", category: "Language", icon: "SiJavascript" },
+  { name: "Python", category: "Language", icon: "SiPython" },
+  { name: "React", category: "Frontend", icon: "SiReact" },
+  { name: "Next.js", category: "Frontend", icon: "SiNextdotjs" },
+  { name: "Angular", category: "Frontend", icon: "SiAngular" },
+  { name: "Tailwind CSS", category: "Frontend", icon: "SiTailwindcss" },
+  { name: "Node.js", category: "Backend", icon: "SiNodedotjs" },
+  { name: "Express.js", category: "Backend", icon: "SiExpress" },
+  { name: "Spring Boot", category: "Backend", icon: "SiSpringboot" },
+  { name: "Flask", category: "Backend", icon: "SiFlask" },
+  { name: "MongoDB", category: "Database", icon: "SiMongodb" },
+  { name: "PostgreSQL", category: "Database", icon: "SiPostgresql" },
+  { name: "Docker", category: "DevOps", icon: "SiDocker" },
+  { name: "Kubernetes", category: "DevOps", icon: "SiKubernetes" },
+  { name: "GitHub Actions", category: "CI/CD", icon: "SiGithubactions" },
+  { name: "Git", category: "Tools", icon: "SiGit" },
+  { name: "Figma", category: "Design", icon: "SiFigma" },
+  { name: "REST APIs", category: "Architecture", icon: "SiPostman" },
 ];
 
 export const accomplishments = [
   {
-    title: "Graduated Software Engineering",
-    issuer: "ESPRIT",
+    title: "Internship in Berlin",
+    issuer: "MAON GmbH",
     date: "2026",
-    description: "Completed a degree in software engineering with a focus on web technologies.",
+    description: "My internship at MAON GmbH in Berlin was an important experience in my professional and personal growth. I worked in an international environment on innovative software solutions related to the energy sector, which helped me strengthen my technical and teamwork skills. On a personal level, this internship was a major achievement because it gave me the opportunity to move from Tunisia to Germany and prove my ability to adapt, work independently, and succeed in an international professional environment.",
+    imageUrl: "/maon.jpg",
   },
   {
-    title: "Internship at MAON GmbH",
-    issuer: "Germany",
-    date: "2024",
-    description: "Successfully completed a development internship abroad.",
+    title: "Participation in IEEE TSYP 2021",
+    issuer: "IEEE Tunisia Student Branch",
+    date: "2021",
+    description: "Participating in IEEE and joining TSYP 2021 was a dynamic experience filled with conferences, workshops, and ample networking opportunities. The diverse sessions allowed for in-depth learning and collaboration, while the social activities and entertainment provided moments of relaxation and amusement. The event successfully blended professional development with personal connections, making it a valuable and enjoyable experience.",
+    imageUrl: "/ieee.png",
+  },
+  {
+    title: "Hult Prize 2020 — 2nd Runner-Up",
+    issuer: "Tunisia",
+    date: "2020",
+    description: "In the Hult Prize 2020 competition, our team of four dedicated individuals passionately addressed the global challenge of food insecurity. Focusing on a sustainable and community-driven solution, we proposed the creation of an innovative application. The app aimed to connect students with local housewives who would prepare nutritious, well-balanced meals. The unique aspect of our concept was that these housewives would not only contribute to combating food insecurity but also earn a fair income for their culinary skills.Our team worked diligently to develop a comprehensive business plan and prototype for the application, emphasizing the social impact it could have on both students and the community. Through careful consideration of economic, cultural, and logistical factors, we crafted a solution that not only provided students with convenient access to wholesome meals but also empowered local women economically.Our efforts and commitment were recognized by the Hult Prize 2020 judges, resulting in our team securing the second runner-up position in the competition.",
+    imageUrl: "/hultPrize.jpg",
+  },
+  {
+    title: "Program Planner and active member of APEK",
+    issuer: "Tunisia",
+    date: "2016 - 2019",
+    description: "Over three years with APEK, I contributed to environmental initiatives by managing challenges related to finance, networking, and logistics. In 2017, I served as program planner for a conference on Tunisia’s environmental future and 2030 challenges, collaborating with experts to organize impactful discussions and raise awareness about sustainable solutions.",
+    imageUrl: "/apek.jpg",
   },
 ];
 

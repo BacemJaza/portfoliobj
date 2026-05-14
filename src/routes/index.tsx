@@ -4,7 +4,8 @@ import { SocialRail } from "@/components/SocialRail";
 import {
   About,
   Accomplishments,
-  EducationExperience,
+  Education,
+  Experience,
   Footer,
   Hero,
   Projects,
@@ -32,16 +33,21 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="min-h-screen relative overflow-x-clip">
+      <link
+        rel="icon"
+        type="image/png"
+        href="/favicon.png"/>
       <Navbar />
       <SocialRail />
       <main>
         <Hero />
-        <About />
-        <EducationExperience />
-        <Projects />
-        <Technologies />
-        <Accomplishments />
         <MySpacePreview />
+        <About />
+        <Technologies />
+        <Experience />
+        <Projects />
+        <Education />
+        <Accomplishments />
       </main>
       <Footer />
     </div>

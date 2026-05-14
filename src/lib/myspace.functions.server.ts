@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { getAdminClient, verifyAdminPassword } from "./myspace.server";
+import { getAdminClient, verifyAdminPassword } from "../server/myspace.server";
 
 const CATEGORIES = ["News"] as const;
 

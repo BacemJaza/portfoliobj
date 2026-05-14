@@ -1,4 +1,25 @@
-import { FileText, Sparkles, Code2, GraduationCap, Briefcase, Trophy, Heart, ArrowUpRight } from "lucide-react";
+import { FileText, Sparkles, Code2, GraduationCap, Briefcase, Trophy, Heart, ArrowUpRight, Github, Video, ExternalLink } from "lucide-react";
+import {
+  SiTypescript,
+  SiJavascript,
+  SiPython,
+  SiReact,
+  SiNextdotjs,
+  SiAngular,
+  SiTailwindcss,
+  SiNodedotjs,
+  SiExpress,
+  SiSpringboot,
+  SiFlask,
+  SiMongodb,
+  SiPostgresql,
+  SiDocker,
+  SiKubernetes,
+  SiGithubactions,
+  SiGit,
+  SiFigma,
+  SiPostman,
+} from "react-icons/si";
 import {
   about,
   accomplishments,
@@ -16,6 +37,28 @@ import { SocialIcon } from "./SocialIcon";
 const highlightIcons = {
   code: Code2,
   "graduation-cap": GraduationCap,
+} as const;
+
+const techIcons = {
+  SiTypescript,
+  SiJavascript,
+  SiPython,
+  SiReact,
+  SiNextdotjs,
+  SiAngular,
+  SiTailwindcss,
+  SiNodedotjs,
+  SiExpress,
+  SiSpringboot,
+  SiFlask,
+  SiMongodb,
+  SiPostgresql,
+  SiDocker,
+  SiKubernetes,
+  SiGithubactions,
+  SiGit,
+  SiFigma,
+  SiPostman,
 } as const;
 
 export function Hero() {
@@ -46,6 +89,22 @@ export function Hero() {
             <p className="mt-4 text-sm text-muted-foreground/80 max-w-lg italic">
               {profile.status}
             </p>
+          </Reveal>
+          <Reveal delay={350}>
+            <div className="mt-6 flex flex-wrap gap-4">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass hover-lift text-sm font-medium transition-colors"
+                >
+                  <SocialIcon name={s.icon} className="w-4 h-4" />
+                  {s.label}
+                </a>
+              ))}
+            </div>
           </Reveal>
           <Reveal delay={400}>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -84,7 +143,7 @@ export function Hero() {
         </div>
 
         <Reveal delay={200} className="relative">
-          <div className="relative mx-auto w-64 h-64 sm:w-80 sm:h-80 animate-[float_6s_ease-in-out_infinite]">
+          <div className="relative mx-auto w-64 h-64 sm:w-80 sm:h-80 animate-float">
             <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-soft blur-2xl" />
             <div className="relative w-full h-full rounded-[2.5rem] glass shadow-elegant grid place-items-center overflow-hidden">
               <div className="absolute inset-0 bg-gradient-soft opacity-60" />
@@ -107,7 +166,7 @@ export function Hero() {
 
 export function About() {
   return (
-    <section className="py-20 sm:py-24">
+    <section id="about" className="py-20 sm:py-24 scroll-mt-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <Reveal>
           <SectionHeading eyebrow="About" title={about.heading} />
@@ -140,57 +199,100 @@ export function About() {
   );
 }
 
-export function EducationExperience() {
+export function Experience() {
   return (
-    <section className="py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 grid md:grid-cols-2 gap-12">
-        <div>
-          <Reveal>
-            <SectionHeading eyebrow="Journey" title="Education" icon={GraduationCap} />
-          </Reveal>
-          <ul className="mt-8 space-y-5">
-            {education.map((e, i) => (
-              <Reveal key={e.school} delay={i * 100}>
-                <li className="glass rounded-2xl p-5 hover-lift">
-                  <div className="flex items-baseline justify-between gap-3 flex-wrap">
-                    <h3 className="text-lg font-semibold">{e.degree}</h3>
-                    <span className="text-xs text-muted-foreground">{e.period}</span>
+    <section id="experience" className="py-20 sm:py-24 scroll-mt-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <Reveal>
+          <SectionHeading eyebrow="Career" title="Experience" icon={Briefcase} />
+        </Reveal>
+        <ul className="mt-8 space-y-5">
+          {experiences.map((x, i) => (
+            <Reveal key={x.company} delay={i * 100}>
+              <li className="glass rounded-2xl p-5 hover-lift">
+                <div className="flex items-start gap-4 flex-col sm:flex-row">
+                  <div className="flex h-14 w-14 flex-none items-center justify-center rounded-2xl bg-muted/20 ring-1 ring-muted/30 overflow-hidden">
+                    {x.logoUrl ? (
+                      <img
+                        src={x.logoUrl}
+                        alt={`${x.company} logo`}
+                        className="h-10 w-10 object-contain"
+                      />
+                    ) : (
+                      <span className="text-sm font-semibold uppercase text-muted-foreground">
+                        {x.company
+                          .split(/\s+/)
+                          .filter(Boolean)
+                          .map((part) => part[0] ?? "")
+                          .join("")
+                          .slice(0, 2)}
+                      </span>
+                    )}
                   </div>
-                  <a
-                    href={e.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm text-primary-glow hover:underline"
-                  >
-                    @{e.school}
-                  </a>
-                  <p className="mt-2 text-sm text-muted-foreground">{e.description}</p>
-                </li>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <Reveal>
-            <SectionHeading eyebrow="Career" title="Experience" icon={Briefcase} />
-          </Reveal>
-          <ul className="mt-8 space-y-5">
-            {experiences.map((x, i) => (
-              <Reveal key={x.company} delay={i * 100}>
-                <li className="glass rounded-2xl p-5 hover-lift">
-                  <div className="flex items-baseline justify-between gap-3 flex-wrap">
-                    <h3 className="text-lg font-semibold">{x.role}</h3>
-                    <span className="text-xs text-muted-foreground">{x.period}</span>
+                  <div className="w-full">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-3">
+                      <h3 className="text-lg font-semibold">{x.role}</h3>
+                      <span className="text-xs text-muted-foreground whitespace-nowrap">{x.period}</span>
+                    </div>
+                    <p className="mt-2 text-sm text-primary-glow">
+                      {x.company} · {x.location}
+                    </p>
                   </div>
-                  <p className="text-sm text-primary-glow">
-                    {x.company} · {x.location}
-                  </p>
-                  <p className="mt-2 text-sm text-muted-foreground">{x.description}</p>
-                </li>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
+                </div>
+                {x.stack ? (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {x.stack
+                      .split(/[·,]/)
+                      .map((item) => item.trim())
+                      .filter(Boolean)
+                      .map((item) => (
+                        <span
+                          key={item}
+                          className="px-2.5 py-1 rounded-full text-xs bg-accent/60 text-muted-foreground"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                  </div>
+                ) : null}
+                <p className="mt-4 text-sm text-muted-foreground">{x.description}</p>
+              </li>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+export function Education() {
+  return (
+    <section id="education" className="py-20 sm:py-24 scroll-mt-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <Reveal>
+          <SectionHeading eyebrow="Journey" title="Education" icon={GraduationCap} />
+        </Reveal>
+        <ul className="mt-8 space-y-5">
+          {education.map((e, i) => (
+            <Reveal key={e.school} delay={i * 100}>
+              <li className="glass rounded-2xl p-5 hover-lift">
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-3">
+                  <h3 className="text-lg font-semibold">{e.degree}</h3>
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">{e.period}</span>
+                </div>
+                <a
+                  href={e.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm text-primary-glow hover:underline"
+                >
+                  @{e.school}
+                </a>
+                <p className="mt-2 text-sm text-muted-foreground">{e.description}</p>
+              </li>
+            </Reveal>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -206,17 +308,21 @@ export function Projects() {
         <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {projects.map((p, i) => (
             <Reveal key={p.title} delay={i * 80}>
-              <a
-                href={p.href}
-                target="_blank"
-                rel="noreferrer"
-                className="group block glass rounded-2xl p-6 hover-lift h-full"
-              >
-                <div className="flex items-start justify-between">
+              <div className="group block glass rounded-2xl p-6 hover-lift h-full">
+                <div className="flex items-start justify-between gap-4">
                   <h3 className="text-lg font-semibold group-hover:text-gradient transition-colors">
                     {p.title}
                   </h3>
-                  <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary-glow group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                  {p.href && p.href !== "#" ? (
+                    <a
+                      href={p.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 text-xs text-primary-glow uppercase tracking-[0.2em] font-medium"
+                    >
+                      Visit <ExternalLink className="w-4 h-4" />
+                    </a>
+                  ) : null}
                 </div>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
                   {p.description}
@@ -231,7 +337,49 @@ export function Projects() {
                     </span>
                   ))}
                 </div>
-              </a>
+                {(p.repo || p.vidSrc || p.pdf) && (
+                  <div className="mt-5 border-t border-border/50 pt-5">
+                    <p className="text-xs uppercase tracking-[0.2em] text-primary-glow mb-3">
+                      Project resources
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {p.repo && p.repo !== "#" ? (
+                        <a
+                          href={p.repo}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-full glass text-xs font-medium hover:bg-accent/50 transition-colors"
+                        >
+                          <Github className="w-4 h-4" />
+                          Source
+                        </a>
+                      ) : null}
+                      {p.vidSrc && p.vidSrc !== "#" ? (
+                        <a
+                          href={p.vidSrc}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-full glass text-xs font-medium hover:bg-accent/50 transition-colors"
+                        >
+                          <Video className="w-4 h-4" />
+                          Video
+                        </a>
+                      ) : null}
+                      {p.pdf && p.pdf !== "#" ? (
+                        <a
+                          href={p.pdf}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-full glass text-xs font-medium hover:bg-accent/50 transition-colors"
+                        >
+                          <FileText className="w-4 h-4" />
+                          PDF
+                        </a>
+                      ) : null}
+                    </div>
+                  </div>
+                )}
+              </div>
             </Reveal>
           ))}
         </div>
@@ -248,17 +396,21 @@ export function Technologies() {
           <SectionHeading eyebrow="Stack" title="Technologies" />
         </Reveal>
         <Reveal delay={100}>
-          <div className="mt-10 flex flex-wrap gap-3">
-            {technologies.map((t, i) => (
-              <span
-                key={t.name}
-                style={{ animationDelay: `${i * 40}ms` }}
-                className="px-4 py-2 rounded-full glass hover-lift text-sm animate-[fade-in-up_0.6s_ease-out_both]"
-              >
-                <span className="text-foreground font-medium">{t.name}</span>
-                <span className="ml-2 text-xs text-muted-foreground">{t.category}</span>
-              </span>
-            ))}
+          <div className="mt-10 flex flex-wrap gap-3 justify-center">
+            {technologies.map((t, i) => {
+              const IconComponent = techIcons[t.icon as keyof typeof techIcons];
+              return (
+                <span
+                  key={t.name}
+                  style={{ animationDelay: `${i * 40}ms` }}
+                  className="px-4 py-2 rounded-full glass hover-lift text-sm animate-[fade-in-up_0.6s_ease-out_both] flex items-center gap-2"
+                >
+                  {IconComponent && <IconComponent className="w-4 h-4 text-primary-glow" />}
+                  <span className="text-foreground font-medium">{t.name}</span>
+                  <span className="ml-1 text-xs text-muted-foreground">{t.category}</span>
+                </span>
+              );
+            })}
           </div>
         </Reveal>
       </div>
@@ -277,14 +429,25 @@ export function Accomplishments() {
           {accomplishments.map((a, i) => (
             <Reveal key={a.title} delay={i * 100}>
               <div className="glass rounded-2xl p-6 hover-lift h-full">
-                <div className="flex items-baseline justify-between gap-3 flex-wrap">
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-3">
                   <h3 className="text-lg font-semibold">{a.title}</h3>
-                  <span className="text-xs text-muted-foreground">{a.date}</span>
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">{a.date}</span>
                 </div>
                 <p className="text-sm text-primary-glow">{a.issuer}</p>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
                   {a.description}
                 </p>
+                <div className="mt-6 relative">
+                  <div className="relative w-full rounded-2xl shadow-elegant overflow-hidden border border-white/10">
+                    <img
+                      src={a.imageUrl || "/placeholder-accomplishment.png"}
+                      alt={`${a.title} certificate`}
+                      className="w-full h-auto object-cover aspect-square"
+                    />
+                    <div className="absolute -top-3 -right-3 w-12 h-12 rounded-xl bg-gradient-primary blur-xl opacity-50" />
+                    <div className="absolute -bottom-3 -left-3 w-10 h-10 rounded-lg bg-primary-glow/30 blur-xl" />
+                  </div>
+                </div>
               </div>
             </Reveal>
           ))}
@@ -302,11 +465,11 @@ export function MySpace() {
           <SectionHeading eyebrow="Personal" title={mySpace.heading} icon={Heart} />
         </Reveal>
         <Reveal delay={100}>
-          <div className="mt-8 glass rounded-3xl p-8 sm:p-10 max-w-3xl">
-            <p className="text-lg text-muted-foreground leading-relaxed">
+          <div className="mt-8 glass rounded-3xl p-6 sm:p-8 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed text-center">
               {mySpace.description}
             </p>
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-6 flex flex-wrap gap-2 justify-center">
               {mySpace.items.map((i) => (
                 <span
                   key={i}
@@ -326,8 +489,8 @@ export function MySpace() {
 export function Footer() {
   return (
     <footer className="py-12 border-t border-border/50">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-sm text-muted-foreground">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 flex flex-col items-center justify-center gap-6 sm:flex-row sm:justify-between">
+        <p className="text-sm text-muted-foreground text-center sm:text-left">
           © {new Date().getFullYear()} {profile.name}. Crafted with care.
         </p>
         <div className="flex items-center gap-2">
