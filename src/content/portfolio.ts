@@ -3,7 +3,7 @@
 //  Everything that changes over time (experiences, education, projects,
 //  technologies, accomplishments, social links) lives here.
 // ============================================================================
-import avatarUrl from "./Photo.png";
+import avatarUrl from "/photo.png";
 
 export const profile = {
   name: "Bacem Jaza",
@@ -57,6 +57,7 @@ export const education = [
     school: "ESPRIT",
     degree: "Software Architectural Engineering (SAE)",
     period: "2023 — 2025",
+    certificate:"/attestation-ESPRIT.pdf",
     description: "As we conclude our extensive academic journey at ESPRIT School, we reflect upon the profound experiences gained throughout this formidable educational odyssey. Within this comprehensive program, our focus on computer science has been unwavering, honing our expertise by integrating pre-existing knowledge with collaborative team projects. The invaluable guidance provided by our exceptionally skilled supervisors has been instrumental in shaping our academic trajectory.",
     url: "https://esprit.tn/",
   },
@@ -64,6 +65,7 @@ export const education = [
     school: "ISIMM",
     degree: "Software Engineering",
     period: "2019 — 2023",
+    certificate:"/attestation-ISIMM.pdf",
     description: "Upon graduating from high school, my discerning choice led me to ISIMM—an institution that has proven to be an indelible cornerstone in my educational journey. From the onset, my decision to enroll at ISIMM has been a source of unwavering satisfaction, as it opened the doors to an expansive realm of computer science. Within the hallowed halls of ISIMM, I delved into a comprehensive curriculum that not only acquainted me with the intricacies of hardware and software utilities but also provided a platform for immersive learning. The educational landscape here has been transformative, facilitating a deep dive into the dynamic world of computer science, where theoretical knowledge seamlessly integrates with hands-on practical experience.",
     url: "https://isimm.rnu.tn/public/",
   }
@@ -74,9 +76,12 @@ export const experiences = [
     company: "MAON GmbH",
     role: "Software Engineer Intern",
     stack: "MongoDB · Express.js · React · Node.js",
-    period: "2024",
+    period: "2025",
     location: "Germany",
     logoUrl: "/maon_logo.jpg",
+    pdf:"/Rapport_stage_MAON.pdf",
+    vidSrc:"",
+    certificate:"/attestation_stage_Bacem_Jaza.pdf",
     description:
       "As part of my 6-month end-of-studies internship, I worked on full-stack development using the MEAN stack (MongoDB, Express.js, React, Node.js), contributing to both front-end and back-end features. I also helped integrate CI/CD pipelines with GitLab and supported Kubernetes deployments to ensure scalable and reliable application delivery. Throughout the internship, I collaborated closely with the development team through code reviews, user flow testing, and updating technical documentation.",
   },
@@ -84,9 +89,12 @@ export const experiences = [
     company: "Sicilia Mia",
     role: "Software Engineer Intern (Remote)",
     stack: "React · JavaScript · HTML · CSS",
-    period: "2024",
+    period: "2024 - 2025",
     location: "Italy",
     logoUrl: "/siciliamia.png",
+    pdf:"",
+    vidSrc:"",
+    certificate:"/sicilia-mia-certificate.pdf",
     description:
       "I had the incredible opportunity to work remotely for 30 hours a week on several React components as part of a group project. It was an exciting journey that strengthened my coding skills and fueled my growth through collaboration, vibrant discussions, and problem-solving. I’m eager to carry this momentum into new challenges ahead!",
   },
@@ -94,9 +102,12 @@ export const experiences = [
     company: "3D WAVE",
     role: "Software Engineer Intern",
     stack: "MongoDB · Express.js · React · Node.js",
-    period: "2024",
+    period: "2023",
     location: "Tunisia",
     logoUrl: "/3dwave.png",
+    pdf:"/Rapport_stage_3DWAVE.pdf",
+    certificate:"/attestation-3dwave.pdf",
+    vidSrc:"https://www.youtube.com/watch?v=k_Wb5dQ0s1o",
     description:
       "I developed a MERN stack application featuring a user dashboard for registering and showcasing battery passports, with additional security measures implemented to enhance platform safety. Throughout the project, I ensured that the scrum team's efficiency was maintained, meeting deadlines and rigorously testing functionalities.",
   },
@@ -104,9 +115,12 @@ export const experiences = [
     company: "Docstream Solutions",
     role: "JavaScript Developer Intern",
     stack: "JavaScript · HTML · CSS",
-    period: "2024",
+    period: "2022",
     location: "Tunisia",
     logoUrl: "/docstreamsolutions_logo.jpg",
+    pdf:"",
+    certificate:"/AttestationStage-docstream.pdf",
+    vidSrc:"https://www.youtube.com/watch?v=HCsihl7BsdQ",
     description:
       "During my internship at Docstream Solutions, I developed two JavaScript plugins to enhance UI/UX and document management within web applications. The first project focused on a calendar system with organized data display and CRUD functionalities, while the second involved creating a PDF Viewer plugin with features such as zooming, cropping, and digital signing. These projects strengthened my skills in JavaScript development, plugin integration, and user-centered design.",
   },

@@ -1,4 +1,4 @@
-import { FileText, Sparkles, Code2, GraduationCap, Briefcase, Trophy, Heart, ArrowUpRight, Github, Video, ExternalLink } from "lucide-react";
+import { FileText, Sparkles, Code2, GraduationCap, Briefcase, Trophy, Heart, ArrowUpRight, Github, Video, ExternalLink, Award } from "lucide-react";
 import {
   SiTypescript,
   SiJavascript,
@@ -256,7 +256,50 @@ export function Experience() {
                   </div>
                 ) : null}
                 <p className="mt-4 text-sm text-muted-foreground">{x.description}</p>
+                  {(x.vidSrc || x.pdf || x.certificate) && (
+                  <div className="mt-5 border-t border-border/50 pt-5">
+                    <p className="text-xs uppercase tracking-[0.2em] text-primary-glow mb-3">
+                      Experience resources
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {x.vidSrc && x.vidSrc !== "#" ? (
+                        <a
+                          href={x.vidSrc}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-full glass text-xs font-medium hover:bg-accent/50 transition-colors"
+                        >
+                          <Video className="w-4 h-4" />
+                          Video
+                        </a>
+                      ) : null}
+                      {x.pdf && x.pdf !== "#" ? (
+                        <a
+                          href={x.pdf}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-full glass text-xs font-medium hover:bg-accent/50 transition-colors"
+                        >
+                          <FileText className="w-4 h-4" />
+                          Documentation
+                        </a>
+                      ) : null}
+                      {x.certificate && x.certificate !== "#" ? (
+                        <a
+                          href={x.certificate}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-full glass text-xs font-medium hover:bg-accent/50 transition-colors"
+                        >
+                          <Award className="w-4 h-4" />
+                          Certificate
+                        </a>
+                      ) : null}
+                    </div>
+                  </div>
+                )}
               </li>
+
             </Reveal>
           ))}
         </ul>
@@ -289,7 +332,28 @@ export function Education() {
                   @{e.school}
                 </a>
                 <p className="mt-2 text-sm text-muted-foreground">{e.description}</p>
+                {(e.certificate) && (
+                  <div className="mt-5 border-t border-border/50 pt-5">
+                    <p className="text-xs uppercase tracking-[0.2em] text-primary-glow mb-3">
+                      Education resources
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {e.certificate && e.certificate !== "#" ? (
+                        <a
+                          href={e.certificate}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-full glass text-xs font-medium hover:bg-accent/50 transition-colors"
+                        >
+                          <Award className="w-4 h-4" />
+                          Certificate
+                        </a>
+                      ) : null}
+                    </div>
+                  </div>
+                )}
               </li>
+              
             </Reveal>
           ))}
         </ul>
