@@ -16,7 +16,6 @@ import { toast } from "sonner";
 import { Reveal } from "./Reveal";
 import {
   CATEGORIES,
-  supabasePublic,
   type Category,
   type ContentEntry,
 } from "@/lib/myspaceClient";
