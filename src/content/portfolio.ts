@@ -78,8 +78,8 @@ export const experiences = [
     stack: "MongoDB · Express.js · React · Node.js",
     period: "2025",
     location: "Germany",
-    logoUrl: "/maon_logo.jpg",
-    pdf:"/Rapport_stage_MAON.pdf",
+    logoUrl: "/images/maon_logo.jpg",
+    pdf:"/documents/Rapport_stage_MAON.pdf",
     vidSrc:"",
     certificate:"/attestations/attestation_stage_Bacem_Jaza.pdf",
     description:
