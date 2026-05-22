@@ -1,4 +1,4 @@
-import { FileText, Sparkles, Code2, GraduationCap, Briefcase, Trophy, Heart, ArrowUpRight, Github, Video, ExternalLink, Award } from "lucide-react";
+import { FileText, Sparkles, Code2, GraduationCap, Briefcase, Trophy, Heart, ArrowUpRight, Github, Video, ExternalLink, Award, Clapperboard } from "lucide-react";
 import {
   SiTypescript,
   SiJavascript,
@@ -36,7 +36,7 @@ import { SocialIcon } from "./SocialIcon";
 
 const highlightIcons = {
   code: Code2,
-  "graduation-cap": GraduationCap,
+  "editor": Clapperboard,
 } as const;
 
 const techIcons = {

@@ -282,7 +282,7 @@ export function MySpaceCuration() {
                       {e.author && (
                         <p className="text-xs text-muted-foreground mt-0.5">by {e.author}</p>
                       )}
-                      <p className="mt-3 text-sm text-muted-foreground leading-relaxed flex-1">
+                      <p className="mt-3 text-sm text-muted-foreground leading-relaxed flex-1 max-h-24 overflow-y-auto scrollbar-thin scrollbar-track-white/5 scrollbar-thumb-blue-400/35 hover:scrollbar-thumb-blue-400/60 pr-1.5">
                         {e.statement}
                       </p>
                       {e.tags && e.tags.length > 0 && (
