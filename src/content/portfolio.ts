@@ -8,7 +8,7 @@ import avatarUrl from "/images/photo.png";
 export const profile = {
   name: "Bacem Jaza",
   role: "Web Developer & CS Student",
-  tagline: "Welcome to my digital home!",
+  tagline: "Hello ODOO Team! Welcome to my digital home!",
   intro:
     "This is where my passions and talents converge. I'm excited to give you a glimpse into my creative world.",
   status:

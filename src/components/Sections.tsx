@@ -151,7 +151,7 @@ export function Hero() {
                 <img
                 src={profile.avatarUrl}
                 alt={`${profile.name} avatar`}
-                className="w-full h-full object-cover rounded-full"
+                className="w-full h-full object-cover"
               />
               </span>
             </div>
