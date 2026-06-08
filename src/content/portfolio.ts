@@ -79,7 +79,6 @@ export const experiences = [
     period: "2025",
     location: "Germany",
     logoUrl: "/images/maon_logo.jpg",
-    pdf:"/documents/Rapport_stage_MAON.pdf",
     vidSrc:"",
     certificate:"/attestations/attestation_stage_Bacem_Jaza.pdf",
     description:
