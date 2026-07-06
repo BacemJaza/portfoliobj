@@ -28,6 +28,7 @@ import {
   updateEntry,
   verifyPassword,
 } from "@/lib/myspace.functions";
+import { fetchWithCache } from "@/lib/cache";
 
 type Filter = "All" | Category;
 
@@ -77,11 +78,19 @@ export function MySpaceCuration() {
     setError(null);
     try {
       if (isAdmin && password) {
-        const rows = await listAllEntries({ data: { password } });
-        setEntries(rows as ContentEntry[]);
+        const rows = await fetchWithCache<ContentEntry[]>(
+          `myspace-curation:admin:${password}`,
+          () => listAllEntries({ data: { password } }) as Promise<ContentEntry[]>,
+          { timeoutMs: 8_000 },
+        );
+        setEntries(rows ?? []);
       } else {
-        const rows = await listAllPublicEntries({});
-        setEntries(rows as ContentEntry[]);
+        const rows = await fetchWithCache<ContentEntry[]>(
+          "myspace-curation:public",
+          () => listAllPublicEntries({}) as Promise<ContentEntry[]>,
+          { timeoutMs: 8_000 },
+        );
+        setEntries(rows ?? []);
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));

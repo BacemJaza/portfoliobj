@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Reveal } from "./Reveal";
 import { CATEGORIES, type Category, type ContentEntry } from "@/lib/myspaceClient";
 import { listLatestPublished } from "@/lib/myspace.functions";
+import { fetchWithCache } from "@/lib/cache";
 
 type Filter = "All" | Category;
 
@@ -23,9 +24,20 @@ export function MySpacePreview() {
       setLoading(true);
       setError(null);
       try {
-        const rows = await listLatestPublished({ data: { limit: LATEST_LIMIT } });
+        const rows = await fetchWithCache<ContentEntry[]>(
+          `myspace-preview:${LATEST_LIMIT}`,
+          () => listLatestPublished({ data: { limit: LATEST_LIMIT } }) as Promise<ContentEntry[]>,
+          { timeoutMs: 8_000 },
+        );
         if (cancelled) return;
-        setEntries(rows as ContentEntry[]);
+
+        if (rows) {
+          setEntries(rows);
+          return;
+        }
+
+        setEntries([]);
+        setError("Couldn't load latest entries right now.");
       } catch (e) {
         if (cancelled) return;
         const msg = e instanceof Error ? e.message : String(e);
