@@ -49,7 +49,6 @@ const emptyDraft = {
 export function MySpaceCuration() {
   const [entries, setEntries] = useState<ContentEntry[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("All");
 
@@ -75,11 +74,10 @@ export function MySpaceCuration() {
 
   async function load() {
     setLoading(true);
-    setError(null);
     try {
       if (isAdmin && password) {
         const rows = await fetchWithCache<ContentEntry[]>(
-          `myspace-curation:admin:${password}`,
+          "myspace-curation:admin",
           () => listAllEntries({ data: { password } }) as Promise<ContentEntry[]>,
           { timeoutMs: 8_000 },
         );
@@ -92,8 +90,8 @@ export function MySpaceCuration() {
         );
         setEntries(rows ?? []);
       }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+    } catch {
+      setEntries([]);
     } finally {
       setLoading(false);
     }
@@ -242,14 +240,6 @@ export function MySpaceCuration() {
           {loading ? (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Loader2 className="w-4 h-4 animate-spin" /> Loading…
-            </div>
-          ) : error ? (
-            <div className="glass rounded-2xl p-6 text-sm text-destructive flex gap-3">
-              <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
-              <div>
-                <p className="font-medium">Couldn't load entries</p>
-                <p className="mt-1 text-muted-foreground">{error}</p>
-              </div>
             </div>
           ) : filtered.length === 0 ? (
             <p className="text-muted-foreground">No entries match.</p>

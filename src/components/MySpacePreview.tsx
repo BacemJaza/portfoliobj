@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink, Heart, Loader2, Search } from "lucide-react";
-import { toast } from "sonner";
 import { Reveal } from "./Reveal";
 import { CATEGORIES, type Category, type ContentEntry } from "@/lib/myspaceClient";
 import { listLatestPublished } from "@/lib/myspace.functions";
@@ -14,7 +13,6 @@ const LATEST_LIMIT = 6;
 export function MySpacePreview() {
   const [entries, setEntries] = useState<ContentEntry[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("All");
 
@@ -22,7 +20,6 @@ export function MySpacePreview() {
     let cancelled = false;
     (async () => {
       setLoading(true);
-      setError(null);
       try {
         const rows = await fetchWithCache<ContentEntry[]>(
           `myspace-preview:${LATEST_LIMIT}`,
@@ -30,19 +27,10 @@ export function MySpacePreview() {
           { timeoutMs: 8_000 },
         );
         if (cancelled) return;
-
-        if (rows) {
-          setEntries(rows);
-          return;
-        }
-
-        setEntries([]);
-        setError("Couldn't load latest entries right now.");
-      } catch (e) {
+        setEntries(rows ?? []);
+      } catch {
         if (cancelled) return;
-        const msg = e instanceof Error ? e.message : String(e);
-        setError(msg);
-        toast.error("Couldn't load latest entries", { description: msg });
+        setEntries([]);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -127,8 +115,6 @@ export function MySpacePreview() {
             <div className="flex items-center gap-2 text-muted-foreground">
               <Loader2 className="w-4 h-4 animate-spin" /> Loading…
             </div>
-          ) : error ? (
-            <div className="glass rounded-2xl p-6 text-sm text-destructive">{error}</div>
           ) : filtered.length === 0 ? (
             <div className="glass rounded-2xl p-8 text-center">
               <p className="text-muted-foreground">

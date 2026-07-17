@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { withServerCache } from "../server/myspace.cache";
 import { getAdminClient, verifyAdminPassword } from "../server/myspace.server";
 
 const CATEGORIES = ["News"] as const;
@@ -88,36 +89,43 @@ export const listLatestPublished = createServerFn({ method: "GET" })
     z.object({ limit: z.number().int().min(1).max(50).optional() }).parse(d ?? {}),
   )
   .handler(async ({ data }) => {
-    const { data: rows, error } = await getAdminClient()
-      .from("content")
-      .select("*")
-      .eq("published", true)
-      .order("created_at", { ascending: false })
-      .limit(data.limit ?? 6);
-    if (error) throw new Error(error.message);
-    return rows ?? [];
+    const limit = data.limit ?? 6;
+    return withServerCache(`latest-published:${limit}`, async () => {
+      const { data: rows, error } = await getAdminClient()
+        .from("content")
+        .select("*")
+        .eq("published", true)
+        .order("created_at", { ascending: false })
+        .limit(limit);
+      if (error) throw new Error(error.message);
+      return rows ?? [];
+    });
   });
 
 // Public listing of all entries (for display to all users)
 export const listAllPublicEntries = createServerFn({ method: "GET" })
-  .handler(async () => {
-    const { data: rows, error } = await getAdminClient()
-      .from("content")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (error) throw new Error(error.message);
-    return rows ?? [];
-  });
+  .handler(async () =>
+    withServerCache("all-public-entries", async () => {
+      const { data: rows, error } = await getAdminClient()
+        .from("content")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw new Error(error.message);
+      return rows ?? [];
+    }),
+  );
 
 // Admin-only listing (includes drafts).
 export const listAllEntries = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => z.object({ password: z.string().min(1).max(200) }).parse(d))
   .handler(async ({ data }) => {
     assertAuth(data.password);
-    const { data: rows, error } = await getAdminClient()
-      .from("content")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (error) throw new Error(error.message);
-    return rows ?? [];
+    return withServerCache("all-admin-entries", async () => {
+      const { data: rows, error } = await getAdminClient()
+        .from("content")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw new Error(error.message);
+      return rows ?? [];
+    });
   });
